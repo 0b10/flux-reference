@@ -13,15 +13,14 @@ export class Todo extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
   }
 
   // >>> LIFECYCLE METHODS >>>
   componentWillMount() {
-    todoStore.on("change", () => {
-      // ! This event will cause a re-render
-      this.forceUpdate(); // ! Avoid setState() so that there's only a single source of truth - the store
-    });
+    // ! This event will cause a re-render
+    // ! Avoid setState() so that there's only a single source of truth - the store
+    // ! Using forceUpdate means that render() gets the state from the store when this event fires.
+    todoStore.on("change", () => this.forceUpdate());
   }
 
   // >>> EVENT HANDLERS >>>
@@ -39,11 +38,6 @@ export class Todo extends Component {
     this.textFieldValue = event.target.value;
   }
 
-  handleDelete(id) {
-    // ! Use the provided actions
-    todoActions.deleteTodo(id);
-  }
-
   // >>> VIEW >>>
   render() {
     return (
@@ -53,7 +47,7 @@ export class Todo extends Component {
           <input type="submit" value="Add" />
         </form>
         <ul>
-          {// ! Use the state from the store directly
+          {// ! Use the state from the store directly. Also see deleteTodo() action bound below
           todoStore.todos.map(({ id, text }) => (
             <div
               key={id}
@@ -64,7 +58,7 @@ export class Todo extends Component {
               }}
             >
               <li>{text}</li>
-              <button onClick={() => this.handleDelete(id)}>Del</button>
+              <button onClick={() => todoActions.deleteTodo(id)}>Del</button>
             </div>
           ))}
         </ul>
