@@ -8,5 +8,5 @@ An extremely simple TODO app that demonstrates the Flux architecture. Forgive th
 
 # Resources
 
-[flux-concept](https://github.com/facebook/flux/tree/master/examples/flux-concepts)
+[flux-concepts](https://github.com/facebook/flux/tree/master/examples/flux-concepts)
 
